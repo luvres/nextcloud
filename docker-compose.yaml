@@ -1,0 +1,45 @@
+version: '3'
+services:
+  app:
+    container_name: app-server
+    image: nextcloud:fpm
+    restart: always
+    expose:
+      - '80'
+      - '9000'
+    volumes:
+      - /var/www/html:/var/www/html
+    environment:
+      - MYSQL_USER=nextcloud
+      - MYSQL_PASSWORD=nextcloud@iazone
+      - MYSQL_DATABASE=nextcloud
+      - MYSQL_HOST=mariadb.iazone.lo
+      - REDIS_HOST=redis
+      - REDIS_HOST_PASSWORD=redis
+  redis:
+    container_name: redis
+    image: redis:alpine
+    command: /bin/sh -c "redis-server --requirepass redis"
+    restart: unless-stopped
+  onlyoffice-document-server:
+    container_name: onlyoffice-document-server
+    image: onlyoffice/documentserver:latest
+    restart: always
+    environment:
+      - JWT_SECRET=i4z0n3
+    expose:
+      - '80'
+      - '443'
+    volumes:
+      - /var/www/onlyoffice/Data:/var/www/onlyoffice/Data
+      - /var/log/onlyoffice:/var/log/onlyoffice
+  nginx:
+    container_name: nginx-server
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /var/www/nginx.conf:/etc/nginx/nginx.conf
+      - /var/www/html:/var/www/html
