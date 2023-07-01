@@ -1,3 +1,6 @@
+# Nextcloud and ONLYOFFICE integrated in docker
+References: [docker-onlyoffice-nextcloud] <https://github.com/ONLYOFFICE/docker-onlyoffice-nextcloud>
+
 ### Nginx config
 ```
 curl -Lo /var/www/nginx.conf https://raw.githubusercontent.com/ONLYOFFICE/docker-onlyoffice-nextcloud/master/nginx.conf
